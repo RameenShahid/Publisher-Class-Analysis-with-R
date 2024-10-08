@@ -1,1 +1,90 @@
 # Publisher-Class-Analysis-with-R
+---
+title: "Publisher Class Analysis"
+output: 
+  flexdashboard::flex_dashboard:
+    theme:
+      bg: "#101010"
+      fg: "#FDF7F7" 
+      primary: "#ED79F9"
+      base_font:
+        google: Prompt
+      code_font:
+        google: JetBrains Mono
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+# Install thematic and un-comment for themed static plots (i.e., ggplot2)
+# thematic::thematic_rmd()
+```
+
+Column {data-width=650 .tabset}
+-----------------------------------------------------------------------
+
+### Total Revenue by Publisher Class
+
+```{r}
+ggplot(revenue_per_publisherClass, aes(x = publisherClass, y = total_revenue)) +
+    geom_bar(stat = "identity", fill = "lightblue") +
+    geom_text(aes(label = scales::comma(total_revenue)), vjust = -0.5, color = "black") +
+    labs(title = "Total Revenue by Publisher Class", x = "Publisher Class", y = "Total Revenue") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+### Total Price by Publisher Class
+
+```{r}
+ggplot(price_per_publisherClass, aes(x = publisherClass, y = total_price)) +
+    geom_bar(stat = "identity", fill = "yellow") +
+    geom_text(aes(label = scales::comma(total_price)), vjust = -0.5, color = "black") +
+    labs(title = "Total Price by Publisher Class", x = "Publisher Class", y = "Total Price") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+### Top 10 Publishers by Total Revenue
+
+```{r}
+ggplot(top_10_revenue_per_publisher, aes(x = reorder(publishers, -total_revenue), y = total_revenue)) +
+    geom_bar(stat = "identity", fill = "lightpink") +
+    geom_text(aes(label = scales::comma(total_revenue)), vjust = -0.5, color = "black") +
+    labs(title = "Top 10 Publishers by Total Revenue", x = "Publishers", y = "Total Revenue") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Copies Sold by Publisher Class
+
+```{r}
+ggplot(copiesSold_per_publisherClass, aes(x = total_copiesSold, y = reorder(publisherClass, total_copiesSold))) +
+    geom_bar(stat = "identity", fill = "purple") +
+    geom_text(aes(label = total_copiesSold), hjust = -0.2, color = "black") +
+    labs(title = "Total Copies Sold by Publisher Class", x = "Total Copies Sold", y = "Publisher Class") +
+    theme_minimal() +
+    theme(axis.text.y = element_text(size = 10))
+
+```
+
+### Total Average Playtime by Publisher Class
+
+```{r}
+ggplot(avgPlaytime_per_publisherClass, aes(x = "", y = total_avgPlaytime, fill = factor(publisherClass))) +
+    geom_bar(stat = "identity", width = 1) +
+    coord_polar("y") +
+    labs(title = "Total Average Playtime by Publisher Class", fill = "Publisher Class") +
+    theme_minimal() +
+    theme(axis.title.x = element_blank(), axis.text.x = element_blank())
+
+```
+
+
